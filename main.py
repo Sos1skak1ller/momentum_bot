@@ -60,52 +60,66 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=keyboard
     )
 
+
+# # === Проверка подписки и регистрация ===
+# async def check_subscription(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     user = update.effective_user
+#     chat_id = update.effective_chat.id
+
+#     try:
+#         member = await context.bot.get_chat_member(CHANNEL, user.id)
+#         if member.status in ["creator", "administrator", "member", "restricted"]:
+#             username = user.username or f"{user.first_name}_{user.id}"
+#             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+#             file_exists = os.path.isfile(CSV_FILE)
+#             with open(CSV_FILE, "a", newline="", encoding="utf-8") as f:
+#                 writer = csv.writer(f)
+#                 if not file_exists:
+#                     writer.writerow(["username", "datetime"])
+#                 writer.writerow([username, timestamp])
+
+#             await context.bot.send_message(chat_id=chat_id, text=(
+#                 "✅ Готово. Ты в списке.\n\n"
+#                 "Ждем тебя 4го июля на нашем рейве!\n\n"
+#                 "📅 4 июля, 21:00 - 05:30\n"
+#                 "🕘 Вход по регистрации с 21:00 до 22:00\n"
+#                 "📍 Клуб \"Невротик\"\n\n"
+#                 "🚧 Обязательно будь подписан(а) на канал — это проверят на входе.\n"
+#                 "📡 Просто покажи это сообщение о регистрации на входе — тебя пустят\n"
+#                 "🪪 Не забудь паспорт! Мероприятие 18+\n\n"
+#                 "Если передумаешь — не забудь взять билет: https://moscow.qtickets.events/169144-momentum-collapse"
+#             ))
+#             await context.bot.send_message(chat_id=chat_id, text=(
+#                 "<b>Если ты не один — веди за собой.</b>\n\n"
+#                 "Ссылка на меня: t.me/mmntum_bot\n\n"
+#                 "Или просто скинь стикер — пусть тоже пройдут этот квест."
+#             ), parse_mode="HTML")
+
+#             # 3. Стикер
+#             await context.bot.send_sticker(chat_id=chat_id, sticker="CAACAgIAAxkBAAM_aDmdOtZULUqzoAfZfUSovfgmFFcAAo5pAAK9aahJgo-IKrWMgQo2BA")
+#         else:
+#             raise Exception("Not subscribed")
+#     except Exception:
+#         await context.bot.send_message(chat_id=chat_id, text=(
+#             "🚧 Чтобы продолжить регистрацию, подпишись на наш канал.\n\n"
+#             f"🔗 https://t.me/{CHANNEL[1:]}\n\n"
+#             f"🎟 Или можешь взять билет: {TICKET_LINK}"
+#         ))
+
+
 # === Проверка подписки и регистрация ===
 async def check_subscription(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.effective_user
     chat_id = update.effective_chat.id
-
-    try:
-        member = await context.bot.get_chat_member(CHANNEL, user.id)
-        if member.status in ["creator", "administrator", "member", "restricted"]:
-            username = user.username or f"{user.first_name}_{user.id}"
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-            file_exists = os.path.isfile(CSV_FILE)
-            with open(CSV_FILE, "a", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                if not file_exists:
-                    writer.writerow(["username", "datetime"])
-                writer.writerow([username, timestamp])
-
-            await context.bot.send_message(chat_id=chat_id, text=(
-                "✅ Готово. Ты в списке.\n\n"
-                "Ждем тебя 4го июля на нашем рейве!\n\n"
-                "📅 4 июля, 21:00 - 05:30\n"
-                "🕘 Вход по регистрации с 21:00 до 22:00\n"
-                "📍 Клуб \"Невротик\"\n\n"
-                "🚧 Обязательно будь подписан(а) на канал — это проверят на входе.\n"
-                "📡 Просто покажи это сообщение о регистрации на входе — тебя пустят\n"
-                "🪪 Не забудь паспорт! Мероприятие 18+\n\n"
-                "Если передумаешь — не забудь взять билет: https://moscow.qtickets.events/169144-momentum-collapse"
-            ))
-            await context.bot.send_message(chat_id=chat_id, text=(
-                "<b>Если ты не один — веди за собой.</b>\n\n"
-                "Ссылка на меня: t.me/mmntum_bot\n\n"
-                "Или просто скинь стикер — пусть тоже пройдут этот квест."
-            ), parse_mode="HTML")
-
-            # 3. Стикер
-            await context.bot.send_sticker(chat_id=chat_id, sticker="CAACAgIAAxkBAAM_aDmdOtZULUqzoAfZfUSovfgmFFcAAo5pAAK9aahJgo-IKrWMgQo2BA")
-        else:
-            raise Exception("Not subscribed")
-    except Exception:
-        await context.bot.send_message(chat_id=chat_id, text=(
-            "🚧 Чтобы продолжить регистрацию, подпишись на наш канал.\n\n"
-            f"🔗 https://t.me/{CHANNEL[1:]}\n\n"
-            f"🎟 Или можешь взять билет: {TICKET_LINK}"
-        ))
-
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text=(
+            "Привет, регистрация закрылась сегодня в 19:00 :/\n\n"
+            "Но ты все еще можешь купить билет - https://moscow.qtickets.events/169144-momentum-collapse\n\n"
+            "Мероприятие начинается в 21:00 и продлится до 05:30, мы ждем тебя\n\n"
+            "Наш тг канал со всей информацией - @mmntum"
+        )
+    )
     # === Команда /export — только для @x0_0Xd ===
 async def export_csv(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
